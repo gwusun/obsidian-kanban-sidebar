@@ -30,17 +30,16 @@ interface ViewEvents {
   hotkey: (commandId: string) => void;
 }
 
+// export class KanbanView extends TextFileView implements HoverParent {
 export class KanbanView extends TextFileView implements HoverParent {
   plugin: KanbanPlugin;
   hoverPopover: HoverPopover | null;
   emitter: Emitter<ViewEvents>;
   actionButtons: Record<string, HTMLElement> = {};
-
   constructor(leaf: WorkspaceLeaf, plugin: KanbanPlugin) {
     super(leaf);
     this.plugin = plugin;
     this.emitter = createEmitter();
-
     this.emitter.on('hotkey', (commmandId) => {
       switch (commmandId) {
         case 'daily-notes:goto-prev': {
@@ -53,7 +52,6 @@ export class KanbanView extends TextFileView implements HoverParent {
         }
       }
     });
-
     this.register(
       this.containerEl.onWindowMigrated(() => {
         this.plugin.removeView(this);
@@ -115,7 +113,6 @@ export class KanbanView extends TextFileView implements HoverParent {
   destroy() {
     // Remove draggables from render, as the DOM has already detached
     this.plugin.removeView(this);
-
     Object.values(this.actionButtons).forEach((b) => b.remove());
     this.actionButtons = {};
   }
@@ -171,6 +168,7 @@ export class KanbanView extends TextFileView implements HoverParent {
   }
 
   onPaneMenu(menu: Menu, source: string, callSuper: boolean = true) {
+
     if (source !== 'more-options') {
       super.onPaneMenu(menu, source);
       return;
@@ -235,6 +233,11 @@ export class KanbanView extends TextFileView implements HoverParent {
   }
 
   initHeaderButtons() {
+    // Remove the header buttons
+
+    console.log("------------------------------------------------")
+    console.log(this.plugin.getStateManager(this.file));
+    return;
     const stateManager = this.plugin.getStateManager(this.file);
 
     if (!stateManager) return;

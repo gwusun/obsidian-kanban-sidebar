@@ -109,3 +109,19 @@ stateManager
     console.error(e);
   });
 ```
+
+
+### Hide the header
+![](./imgs/header.png)
+``` 
+.workspace-leaf-content[data-type='kanban'] {
+  .view-content {
+    padding: 0;
+  }
+
+  > .view-header {
+    display: none; # hide header
+  }
+}
+
+```

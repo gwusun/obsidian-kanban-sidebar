@@ -53,7 +53,6 @@ export const LaneHeader = Preact.memo(function LaneHeader({
         <div className={c('lane-grip')} ref={dragHandleRef}>
           <GripIcon />
         </div>
-
         <LaneTitle
           isEditing={isEditing}
           setIsEditing={setIsEditing}
