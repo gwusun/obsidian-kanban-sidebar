@@ -96,7 +96,7 @@ boardModifiers.updateItem(
           })
         );
 ```
-
+ 
 ### update the list
 ```javascript
 stateManager
