@@ -19,7 +19,7 @@ Add the settings to the end of the kanban file (a .md file).
 ## obsidian.css 
 append the following css to  file `.obsidian/snippets/obsidian.css`.
 
-```python
+```css 
 /* obsidian kanban */
 .kanban-plugin__board>div{
   display: block;
@@ -48,4 +48,64 @@ append the following css to  file `.obsidian/snippets/obsidian.css`.
 .kanban-plugin__lane-header-wrapper{
   background: linear-gradient(220.55deg, #FFF6EB 0%, #DFD1C5 100%) !important;
 } 
+```
+
+## Features
+- Single columns to fit the left sidebar. 
+- Automatically append datetime to the task. For example, when you type the `task name`, the task  will be  `task name @{2022-11-6} @@{16:13}`
+- Automatically the task finished datetime to the task. For example, when you click the checkbox of the task named `task name`, the task will be `task name ✅ 2022-11-6 13:20`
+- 
+
+
+## Code
+### Generate Finished Data
+```javascript
+
+//✅ 2022-11-6 13:20
+const d=new Date()
+const post_datatime=" ✅ "+d.getFullYear()+"-"+(d.getMonth()+1) +"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()
+// 
+```
+
+### Replace old data
+```javascript
+const d=new Date()
+const current_datetime=" ✅ "+d.getFullYear()+"-"+(d.getMonth()+1) +"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()
+const finshed_datetime_reg=/\s?✅\s\d+-\d+-\d+\s\d+:\d+/g
+" ✅ 2022-11-6 13:20".replaceAll(finshed_datetime_reg,current_datetime) 
+
+// if the fished datetime is existed. 
+if(" ✅ 2022-11-6 13:20".search(finshed_datetime_reg) === -1){
+    //not existed the finished datatime
+}else{
+    //the finished datatime is existed
+}
+
+
+//update the item
+boardModifiers.updateItem(
+          path,
+          update(item, {
+            data: {
+              $toggle: ['isComplete'],
+              // the enssence update code
+              titleRaw:{
+                $set: target_task_item
+              }
+            },
+          })
+        );
+```
+
+### update the list
+```javascript
+stateManager
+  .updateItemContent(item, titleRaw)
+  .then((item) => {
+    boardModifiers.updateItem(path, item);
+  })
+  .catch((e) => {
+    stateManager.setError(e);
+    console.error(e);
+  });
 ```

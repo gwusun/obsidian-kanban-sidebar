@@ -148,7 +148,6 @@ export const MarkdownEditor = Preact.forwardRef(function MarkdownEditor(
           {...autocompleteProps}
           ref={(c: HTMLTextAreaElement) => {
             autocompleteProps.ref.current = c;
-
             if (ref && typeof ref === 'function') {
               ref(c);
             } else if (ref) {

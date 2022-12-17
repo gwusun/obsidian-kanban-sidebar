@@ -1,7 +1,6 @@
 import update from 'immutability-helper';
 import { App, MarkdownView, TFile, moment } from 'obsidian';
 import Preact from 'preact/compat';
-
 import { Path } from 'src/dnd/types';
 import { getEntityFromPath } from 'src/dnd/util/data';
 import { StateManager } from 'src/StateManager';
@@ -12,9 +11,40 @@ export const baseClassName = 'kanban-plugin';
 
 export function noop() {}
 
+// data time helper
+/**
+ * return current date, e.g., 2022-12-17
+ *
+ */
+export function getCurrentDate(){
+  return moment().format('YYYY-MM-DD')
+}
+/**
+ * return current time, e.g., '19:11'
+ *
+ */
+export function getCurrentTime(){
+   return moment().format( "HH:mm")
+}
+
+/**
+ * return current datetime: '2022-12-17 19:13'
+ */
+export function getCurrentDatetime(){
+  return moment().format( "YYYY-MM-DD HH:mm")
+}
+
+//===========task helper================================
+export function getTaskFinishedReg(){
+  return /\s?✅\s\d+-\d+-\d+\s\d+:\d+/g
+}
+
+
 export function c(className: string) {
   return `${baseClassName}__${className}`;
 }
+
+
 
 export function generateInstanceId(len: number = 9): string {
   return Math.random()

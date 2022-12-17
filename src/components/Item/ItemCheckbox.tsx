@@ -5,7 +5,7 @@ import { Path } from 'src/dnd/types';
 import { StateManager } from 'src/StateManager';
 
 import { BoardModifiers } from '../../helpers/boardModifiers';
-import { c } from '../helpers';
+import {c, getCurrentDatetime, getTaskFinishedReg} from '../helpers';
 import { Icon } from '../Icon/Icon';
 import { Item } from '../types';
 
@@ -75,15 +75,53 @@ export const ItemCheckbox = Preact.memo(function ItemCheckbox({
       {shouldShowCheckbox && !isCtrlHoveringCheckbox && (
         <input
           onChange={() => {
-            boardModifiers.updateItem(
-              path,
-              update(item, {
+            //Automatically the task finished datetime to the task, e.g. task name ✅ 2022-11-6 13:20
+            const finished_value=" ✅ " + getCurrentDatetime()
+            const reg_finished_datetime=  getTaskFinishedReg()
+            const task_raw_content=item.data.titleRaw
+            let target_task_value=""
+            if(item.data.isComplete===false){
+                if(task_raw_content.search(reg_finished_datetime) === -1){
+                //not existed the finished datatime
+                target_task_value=task_raw_content+" "+finished_value
+                }else{
+                    //the finished datatime is existed
+                    target_task_value=task_raw_content.replaceAll(reg_finished_datetime,finished_value)
+                }
+            }else{
+                //unfinished the task, remove the finished datatime
+                target_task_value=task_raw_content.replaceAll(reg_finished_datetime,"")
+            }
+
+            console.log("==================== source item ================================")
+            console.log(item);
+            // boardModifiers.updateItem(
+            //   path,
+            //   update(item, {
+            //     data: {
+            //       $toggle: ['isComplete'],
+            //       titleRaw:{
+            //         $set: target_task_value
+            //       }
+            //     },
+            //   })
+            // );
+
+            stateManager.updateItemContent(item,target_task_value).then(item=>{
+              //update the task value on the panel
+              console.log("update successful")
+              boardModifiers.updateItem(path,update(item, {
                 data: {
-                  $toggle: ['isComplete'],
+                  $toggle: ['isComplete']
                 },
-              })
-            );
+              }))
+            }).catch(e=>{
+              stateManager.setError(e)
+              console.error(e)
+            })
           }}
+
+          // end
           type="checkbox"
           className="task-list-item-checkbox"
           checked={!!item.data.isComplete}

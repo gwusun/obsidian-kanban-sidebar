@@ -6,7 +6,7 @@ import { t } from 'src/lang/helpers';
 import { KanbanContext } from '../context';
 import { getDropAction, handlePaste } from '../Editor/helpers';
 import { MarkdownEditor, allowNewLine } from '../Editor/MarkdownEditor';
-import { c } from '../helpers';
+import {c, getCurrentDate, getCurrentTime} from '../helpers';
 import { Item } from '../types';
 
 interface ItemFormProps {
@@ -45,6 +45,12 @@ export function ItemForm({
       addItems(
         await Promise.all(
           titles.map((title) => {
+            // - Automatically append datetime to the task.  title + ' @{2022-11-6} @@{16:13}'(automatically fill)
+            // title + ' @{2022-11-6} @@{16:13}'(automatically fill)
+            const d=new Date()
+            const post_datatime=" @{"+getCurrentDate()+"} @@{"+getCurrentTime()+"}"
+            title=title+post_datatime
+            // console.log(title);
             return stateManager.getNewItem(title);
           })
         )

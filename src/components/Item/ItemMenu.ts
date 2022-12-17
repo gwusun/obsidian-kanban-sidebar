@@ -54,8 +54,7 @@ export function useItemMenu({
             .onClick(() => setIsEditing(true));
         });
 
-        menu
-          .addItem((i) => {
+        menu.addItem((i) => {
             i.setIcon('lucide-file-plus-2')
               .setTitle(t('New note from card'))
               .onClick(async () => {

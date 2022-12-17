@@ -199,7 +199,17 @@ export default class KanbanPlugin extends Plugin {
     }
 
     const file = view.file;
-
+    // console.log("const file = view.file: \t");
+    // console.log(file);
+    // basename: "任务安排"
+    // deleted: false
+    // extension: "md"
+    // name: "任务安排.md"
+    // parent: t {deleted: false, vault: t, path: 'daily-notes', name: 'daily-notes', children: Array(33), …}
+    // path: "daily-notes/任务安排.md"
+    // saving: false
+    // stat: {ctime: 1671248916756, mtime: 1671272306677, size: 1080}
+    // vault: t {_: {…}, fileMap: {…}, config: {…}, configTs: 1671272494546, configDir: '.obsidian', …}
     if (this.stateManagers.has(file)) {
       this.stateManagers.get(file).registerView(view, data, shouldParseData);
     } else {
