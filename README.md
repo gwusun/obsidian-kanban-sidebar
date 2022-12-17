@@ -28,3 +28,29 @@ Changed in `src/main.less`
   --lane-width: 100%;
 }
 ```
+
+`obsidian.css`
+```
+/* obsidian kanban */
+.kanban-plugin__board>div{
+  display: block;
+  margin-bottom: 10px;
+}
+
+.kanban-plugin__lane{
+	border: none;
+}
+
+.kanban-plugin__scroll-container.kanban-plugin__vertical{
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+}
+.kanban-plugin__item-button-wrapper{
+  border-radius: 2px !important; 
+  padding: 0.2em !important; 
+  background-color: none;
+  border:none;
+}
+``` 
