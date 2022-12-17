@@ -109,8 +109,7 @@ export default class KanbanPlugin extends Plugin {
     });
 
     this.addSettingTab(this.settingsTab);
-
-    this.registerView(kanbanViewType, (leaf) => new KanbanView(leaf, this));
+    // this.registerView(kanbanViewType, (leaf) => new KanbanView(leaf, this));
     this.registerMonkeyPatches();
     this.registerCommands();
     this.registerEvents();
